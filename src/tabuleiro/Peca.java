@@ -33,4 +33,9 @@ public  abstract class Peca {
 		return false;
 	}
 
+	public void add(Peca capturaDePeca) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

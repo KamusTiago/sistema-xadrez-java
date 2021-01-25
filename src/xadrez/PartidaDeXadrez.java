@@ -1,6 +1,7 @@
 package xadrez;
 
-import javax.transaction.xa.XAException;
+import java.util.ArrayList;
+import java.util.List;
 
 import tabuleiro.Peca;
 import tabuleiro.Posicao;
@@ -13,6 +14,9 @@ public class PartidaDeXadrez {
 	private Tabuleiro tabuleiro;
 	private int turno;
 	private Cor jogadorAtual;
+	
+	private List<PecaDeXadrez> pecasNoTabuleiro = new ArrayList<>();
+	private List<PecaDeXadrez> pecasCapturadas = new ArrayList<>();
 	
 	public PartidaDeXadrez() {
 			tabuleiro = new Tabuleiro(8,8);
@@ -58,6 +62,10 @@ public class PartidaDeXadrez {
 		Peca p = tabuleiro.removerPeca(origem);
 		Peca capturaDePeca = tabuleiro.removerPeca(destino);
 		tabuleiro.lugarDePeca(p, destino);
+		if(capturaDePeca != null) {
+			pecasNoTabuleiro.remove(capturaDePeca);
+			capturaDePeca.add(capturaDePeca);
+		}
 		return capturaDePeca;
 	}
 	
@@ -86,6 +94,7 @@ public class PartidaDeXadrez {
 	
 	private void ColoqueNovaPeca(char coluna, int linha, PecaDeXadrez peca) {
 		tabuleiro.lugarDePeca(peca, new PosicaoXadrez(coluna, linha).toPosicao());
+		pecasNoTabuleiro.add(peca);
 	}
 	
 	private void iniciarPartida() {
